@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Defina o nome do grupo
+# define o nome do grupo
 GROUP_NAME="meu_grupo"
 
-# Crie o grupo
+# cria o grupo
 if ! getent group $GROUP_NAME > /dev/null; then
     groupadd $GROUP_NAME
     echo "Grupo '$GROUP_NAME' criado."
@@ -11,12 +11,12 @@ else
     echo "Grupo '$GROUP_NAME' já existe."
 fi
 
-# Defina os usuários a serem criados
+# define os usuários a serem criados
 USUARIOS=("usuario1" "usuario2" "usuario3")
 
-# Crie os usuários e seus diretórios
+# cria os usuários e seus diretórios
 for USUARIO in "${USUARIOS[@]}"; do
-    # Crie o usuário
+    # cria o usuário
     if ! id "$USUARIO" &>/dev/null; then
         useradd -m -g $GROUP_NAME $USUARIO
         echo "Usuário '$USUARIO' criado e adicionado ao grupo '$GROUP_NAME'."
@@ -24,7 +24,7 @@ for USUARIO in "${USUARIOS[@]}"; do
         echo "Usuário '$USUARIO' já existe."
     fi
 
-    # Crie um diretório para o usuário
+    # cria um diretório para o usuário
     DIR="/home/$USUARIO/diretorio"
     if [ ! -d "$DIR" ]; then
         mkdir "$DIR"
@@ -33,7 +33,7 @@ for USUARIO in "${USUARIOS[@]}"; do
         echo "Diretório '$DIR' já existe."
     fi
 
-    # Defina as permissões do diretório
+    # define as permissões do diretório
     chown $USUARIO:$GROUP_NAME "$DIR"
     chmod 770 "$DIR"
     echo "Permissões do diretório '$DIR' definidas para o usuário '$USUARIO'."
